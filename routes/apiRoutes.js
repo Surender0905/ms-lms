@@ -12,6 +12,11 @@ router.get("/books/search", bookController.searchBooks);
 router.post("/books/save", bookController.saveBook);
 router.post("/books/:bookId/tags", bookController.addTagsToBook);
 
+//post /api/books/tag
+router.post("/api/books/tag", bookController.addTagsToBook);
+
+router.get("/api/books/searchByTag", bookController.searchBookByTagName);
+
 // Search history routes
 router.post("/search-history", searchHistoryController.storeSearchHistory);
 

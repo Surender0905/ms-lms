@@ -1,5 +1,6 @@
 const axios = require("axios");
 const { Book, User, Tag } = require("../models");
+const book = require("../models/book");
 
 exports.searchBooks = async (req, res) => {
     const { query } = req.query;
@@ -78,6 +79,31 @@ exports.addTagsToBook = async (req, res) => {
             message: "Tags added successfully",
             tags: tags.map((tag) => tag.name),
         });
+    } catch (error) {
+        return res.status(500).json({ message: "Error adding tags" });
+    }
+};
+
+exports.searchBookByTagName = async (req, res) => {
+    const { tagName } = req.query;
+
+    try {
+
+        const books = Book.findAll({
+            indludes:{
+                models: "Tags"
+                
+            }
+            
+        })
+
+
+        res.ststus(200).json({
+            status:true,
+            books
+        })
+
+
     } catch (error) {
         return res.status(500).json({ message: "Error adding tags" });
     }
