@@ -1,6 +1,7 @@
 const axios = require("axios");
 const { Book, User, Tag } = require("../models");
 const book = require("../models/book");
+const { where } = require("sequelize");
 
 exports.searchBooks = async (req, res) => {
     const { query } = req.query;
@@ -88,22 +89,19 @@ exports.searchBookByTagName = async (req, res) => {
     const { tagName } = req.query;
 
     try {
-
         const books = Book.findAll({
-            indludes:{
-                models: "Tags"
-                
-            }
-            
-        })
-
+            include: {
+                models: "Tags",
+                where: {
+                    name: tagName,
+                },
+            },
+        });
 
         res.ststus(200).json({
-            status:true,
-            books
-        })
-
-
+            status: true,
+            books,
+        });
     } catch (error) {
         return res.status(500).json({ message: "Error adding tags" });
     }
